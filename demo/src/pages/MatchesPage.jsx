@@ -251,23 +251,37 @@ export default function MatchesPage() {
                   </a>
                   <div className="market-tags">
                     {g.items.map((it) => (
-                      <a
-                        key={it.q}
-                        className={'market-tag market-tag-static' + (it.hot ? ' hot' : '')}
-                        href={it.url}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span className="tag-q">{it.q}</span>
+                      <div key={it.q} className={'market-tag' + (it.hot ? ' hot' : '')}>
+                        <a
+                          className="tag-q tag-q-link"
+                          href={it.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={`Open on ${g.platform}`}
+                        >
+                          <span className="tag-q-text">{it.q}</span>
+                          <span className="tag-q-ext" aria-hidden="true">↗</span>
+                        </a>
                         <div className="tag-row">
+                          <span className="tag-vol">{formatVol(it.volNum)}</span>
                           <div className="tag-options">
                             {it.options.map(([k, v]) => (
-                              <span key={k} className="opt-chip"><b>{k}</b> {v}%</span>
+                              <span key={k} className="opt-chip">
+                                <b className="opt-k">{k}</b>
+                                <span className="opt-v">{v}%</span>
+                              </span>
                             ))}
                           </div>
-                          <span className="tag-vol">{formatVol(it.volNum)}</span>
                         </div>
-                      </a>
+                        <div className="tag-actions">
+                          <button
+                            className="tag-btn tag-btn-analyze"
+                            onClick={() => navigate('/analysis/' + m.id, { state: { match: m, preAnalyze: { q: it.q, platform: g.platform } } })}
+                          >
+                            <span className="tag-btn-icon">▶</span> Start analysis
+                          </button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>

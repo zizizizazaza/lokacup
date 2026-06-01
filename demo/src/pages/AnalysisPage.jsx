@@ -397,6 +397,18 @@ export default function AnalysisPage() {
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
   const [input, setInput] = useState('')
 
+  useEffect(() => {
+    if (state?.preAnalyze) {
+      const { q, platform } = state.preAnalyze
+      const prompt = `Analyze this ${platform || 'market'} question: "${q}". What is the AI consensus, and is the current market price mispriced?`
+      setMessages((prev) => [
+        ...prev,
+        { role: 'user', text: prompt },
+        { role: 'assistant', meta: 'Analyzing', text: `Spinning up 4 agents for "${q}" — pulling orderbook history, news, tactics signals, and cross-book odds…` },
+      ])
+    }
+  }, [])
+
   const analyzeQuestion = (q, platform) => {
     const prompt = `Analyze this ${platform || 'market'} question: "${q}". What is the AI consensus, and is the current market price mispriced?`
     setMessages((prev) => [

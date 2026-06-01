@@ -278,11 +278,43 @@ input { font-family: inherit; }
     to bottom,
     transparent 0px,
     transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 4px
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.4;
+  animation: hero-scanlines 1.2s linear infinite;
+}
+@keyframes hero-scanlines {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 -4px; }
+}
+
+/* Sweep highlight that drifts across the title every few seconds */
+.hero-title::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -30%;
+  width: 30%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.08) 55%,
+    transparent 100%
   );
   pointer-events: none;
-  opacity: 0.3;
+  animation: hero-sweep 6s linear infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes hero-sweep {
+  0%   { transform: translateX(0%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(450%); opacity: 0; }
 }
 
 .tagline {
@@ -800,22 +832,45 @@ input { font-family: inherit; }
 .market-row .market-meta .whale { color: var(--accent-blue); }
 
 .mc-ask {
-  margin-top: auto;
-  background: transparent;
-  border: 1px solid var(--accent-green);
+  margin-top: 1rem;
+  background: linear-gradient(135deg, var(--accent-green) 0%, #c8ff3a 100%);
+  border: none;
   border-radius: var(--radius-md);
-  color: var(--accent-green);
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.65rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.mc-ask:hover {
-  background: var(--accent-green);
   color: var(--bg-base);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  transition: transform 0.05s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 24px rgba(168,255,0,0.3);
+  position: relative;
+  overflow: hidden;
 }
+.mc-ask::before {
+  content: "▶";
+  font-size: 0.75rem;
+}
+.mc-ask::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: mc-ask-shimmer 3.5s ease-in-out infinite;
+}
+@keyframes mc-ask-shimmer {
+  0%   { left: -100%; }
+  60%  { left: 120%; }
+  100% { left: 120%; }
+}
+.mc-ask:hover { box-shadow: 0 6px 32px rgba(168,255,0,0.5); }
+.mc-ask:active { transform: scale(0.98); }
 
 .upcoming-strip {
   display: flex;
