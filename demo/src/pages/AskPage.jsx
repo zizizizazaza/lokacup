@@ -6,46 +6,80 @@ import Footer from '../components/Footer'
 
 const MARKETS = [
   {
-    variant: 'highlight',
-    title: 'Outright Winner 2026',
-    vol: '$14.2M',
-    rows: [
-      { rank: '01', label: 'Brazil', value: '18.5%', dir: 'up', tone: '' },
-      { rank: '02', label: 'France', value: '16.2%', dir: 'flat', tone: 'flat' },
-      { rank: '03', label: 'Argentina', value: '12.0%', dir: 'down', tone: 'down' },
+    home: { flag: '🇧🇷', name: 'Brazil' },
+    away: { flag: '🇲🇦', name: 'Morocco' },
+    league: 'Group D · Today',
+    question: 'Match winner',
+    platform: 'Polymarket',
+    vol: '$1.2M',
+    options: [
+      { flag: '🇧🇷', label: 'Brazil',  yes: 68, dir: 'up' },
+      {              label: 'Draw',    yes: 18, dir: 'flat' },
+      { flag: '🇲🇦', label: 'Morocco', yes: 14, dir: 'down' },
     ],
-    cta: 'Ask AI for edge',
   },
   {
-    title: 'Golden Boot',
-    vol: '$4.8M',
-    rows: [
-      { rank: '01', label: 'Mbappé', value: '22%', dir: 'up' },
-      { rank: '02', label: 'Haaland', value: '15%', dir: 'up' },
-      { rank: '03', label: 'Vini Jr.', value: '11%', dir: 'flat', tone: 'flat' },
+    home: { flag: '🇫🇷', name: 'France' },
+    away: { flag: '🇨🇦', name: 'Canada' },
+    league: 'Group D · Today',
+    question: 'Match winner',
+    platform: 'Polymarket',
+    vol: '$890k',
+    options: [
+      { flag: '🇫🇷', label: 'France', yes: 82, dir: 'up' },
+      {              label: 'Draw',   yes: 12, dir: 'flat' },
+      { flag: '🇨🇦', label: 'Canada', yes: 6,  dir: 'down' },
     ],
-    cta: 'Evaluate form',
   },
   {
-    title: 'Tournament Total Goals',
-    vol: '$2.1M',
-    rows: [
-      { label: 'Over 168.5', value: '54%', dir: 'up' },
-      { label: 'Under 168.5', value: '46%', dir: 'down', tone: 'down' },
+    home: { flag: '🇪🇸', name: 'Spain' },
+    away: { flag: '🇲🇦', name: 'Morocco' },
+    league: 'Group F · Tomorrow',
+    question: 'Total goals 2.5+',
+    platform: 'Polymarket',
+    vol: '$540k',
+    options: [
+      { label: 'Over',  yes: 64, dir: 'up' },
+      { label: 'Under', yes: 36, dir: 'down' },
     ],
-    cta: 'Analyze historic data',
   },
   {
-    variant: 'arb',
-    title: 'Cross-Platform Arb',
-    volLabel: 'Spread',
-    vol: '4.2%',
-    sublabel: 'USA to advance from Group Stage — discrepancy between Polymarket and Kalshi order books.',
-    rows: [
-      { label: 'Polymarket (YES)', value: '42.0%', tone: 'flat' },
-      { label: 'Kalshi (NO)', value: '53.8%', tone: 'flat' },
+    home: { flag: '🇦🇷', name: 'Argentina' },
+    away: { flag: '🇺🇾', name: 'Uruguay' },
+    league: 'Group A · Tomorrow',
+    question: 'Both teams to score',
+    platform: 'Polymarket',
+    vol: '$320k',
+    options: [
+      { label: 'Yes', yes: 73, dir: 'up' },
+      { label: 'No',  yes: 27, dir: 'down' },
     ],
-    cta: 'Calculate arb path',
+  },
+  {
+    home: { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', name: 'England' },
+    away: { flag: '🇧🇪', name: 'Belgium' },
+    league: 'Group E · Tomorrow',
+    question: 'First half winner',
+    platform: 'Polymarket',
+    vol: '$210k',
+    options: [
+      { flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', label: 'England', yes: 38, dir: 'up' },
+      {              label: 'Draw',   yes: 41, dir: 'flat' },
+      { flag: '🇧🇪', label: 'Belgium', yes: 21, dir: 'down' },
+    ],
+  },
+  {
+    home: { flag: '🇵🇹', name: 'Portugal' },
+    away: { flag: '🇲🇽', name: 'Mexico' },
+    league: 'Group C · Tomorrow',
+    question: 'Match winner',
+    platform: 'Kalshi',
+    vol: '$185k',
+    options: [
+      { flag: '🇵🇹', label: 'Portugal', yes: 63, dir: 'up' },
+      {              label: 'Draw',     yes: 22, dir: 'flat' },
+      { flag: '🇲🇽', label: 'Mexico',   yes: 15, dir: 'down' },
+    ],
   },
 ]
 
@@ -76,7 +110,7 @@ export default function AskPage() {
           <div className="section-meta">$42.8M live volume · updated 12s ago</div>
         </div>
         <div className="markets-grid">
-          {MARKETS.map((m) => <MarketCard key={m.title} market={m} />)}
+          {MARKETS.map((m, i) => <MarketCard key={i} market={m} />)}
         </div>
       </section>
 

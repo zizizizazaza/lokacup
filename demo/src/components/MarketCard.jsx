@@ -1,46 +1,60 @@
 import { useNavigate } from 'react-router-dom'
 
 function Trend({ dir }) {
-  if (dir === 'up') return <span className="trend">▲</span>
-  if (dir === 'down') return <span className="trend">▼</span>
-  return <span className="trend dim">—</span>
+  if (dir === 'up') return <span className="pm-trend up">↑</span>
+  if (dir === 'down') return <span className="pm-trend down">↓</span>
+  return <span className="pm-trend flat">→</span>
 }
 
 export default function MarketCard({ market }) {
   const navigate = useNavigate()
-  const { variant, title, volLabel, vol, sublabel, rows, cta } = market
-  const cls = ['market-card']
-  if (variant === 'highlight') cls.push('highlight')
-  if (variant === 'arb') cls.push('arb')
+  const { home, away, league, question, platform, vol, options } = market
 
   return (
-    <article className={cls.join(' ')}>
-      <div className="mc-header">
-        <h3 className="mc-title">{title}</h3>
-        <div className={'mc-vol' + (variant === 'arb' ? ' arb-spread' : '')}>
-          {volLabel || '24H VOL'}
-          <br />
-          <span>{vol}</span>
+    <article className="pm-card">
+      <div className="pm-card-head">
+        <div className="pm-matchup">
+          <span className="pm-flag-l">{home.flag}</span>
+          <span className="pm-vs-text">{home.name} <span className="pm-vs">vs</span> {away.name}</span>
+          <span className="pm-flag-r">{away.flag}</span>
         </div>
+        <div className="pm-league">{league}</div>
       </div>
-      {sublabel && <div className="mc-sublabel">{sublabel}</div>}
-      <ul className="data-list">
-        {rows.map((r, i) => (
-          <li key={i} className="data-row">
-            <span className="team-name">
-              {r.rank && <span className="rank">{r.rank}</span>}
-              {r.label}
-            </span>
-            <span className={'prob' + (r.tone ? ' ' + r.tone : '')}>
-              {r.value}
-              {r.dir && <Trend dir={r.dir} />}
-            </span>
-          </li>
+
+      <div className="pm-question">{question}</div>
+
+      <div className="pm-options">
+        {options.map((opt) => (
+          <button
+            key={opt.label}
+            className="pm-option"
+            onClick={() => navigate('/analysis/demo', { state: { query: `${question} — ${opt.label}` } })}
+          >
+            <div className="pm-opt-left">
+              {opt.flag && <span className="pm-opt-flag">{opt.flag}</span>}
+              <span className="pm-opt-label">{opt.label}</span>
+            </div>
+            <div className="pm-opt-right">
+              <span className="pm-yes-pill">
+                Yes <b>{opt.yes}¢</b>
+                <Trend dir={opt.dir} />
+              </span>
+            </div>
+          </button>
         ))}
-      </ul>
-      <button className="btn-card" onClick={() => navigate('/analysis/demo', { state: { query: title } })}>
-        {cta}
-      </button>
+      </div>
+
+      <div className="pm-card-foot">
+        <span className="pm-platform">{platform}</span>
+        <span className="pm-dot">·</span>
+        <span className="pm-vol">{vol} Vol · 24h</span>
+        <button
+          className="pm-ask"
+          onClick={() => navigate('/analysis/demo', { state: { query: `${home.name} vs ${away.name}: ${question}` } })}
+        >
+          <span className="pm-ask-icon">▶</span> Ask AI
+        </button>
+      </div>
     </article>
   )
 }
